@@ -6,9 +6,26 @@ import matplotlib.pyplot as plt
 
 st.title("Customer Segmentation with K-Means")
 
-# Загружаем модель и скейлер
-kmeans = joblib.load("kmeans_model.joblib")
-scaler = joblib.load("scaler.joblib")
+import os
+import joblib
+import streamlit as st
+
+# Абсолютный путь к файлам относительно этого скрипта
+base_path = os.path.dirname(os.path.abspath(__file__))
+kmeans_path = os.path.join(base_path, "kmeans_model.joblib")
+scaler_path = os.path.join(base_path, "scaler.joblib")
+
+# Проверка наличия файлов перед загрузкой
+if not os.path.exists(kmeans_path):
+    st.error(f"❌ Файл модели не найден по пути: {kmeans_path}")
+else:
+    kmeans = joblib.load(kmeans_path)
+
+if not os.path.exists(scaler_path):
+    st.error(f"❌ Файл scaler не найден по пути: {scaler_path}")
+else:
+    scaler = joblib.load(scaler_path)
+
 
 # Загружаем данные
 uploaded_file = st.file_uploader("Загрузите файл ccdata.csv")
